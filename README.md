@@ -3,7 +3,7 @@
 
 本代码涉及到surface code的运行，目前可以对任意尺寸，任意量子比特数的surface code 进行量子纠错，但只可以显示单个量子比特的纠错成功与否。
 
-操作者若想进行surface code 的运行，可以在本段代码的尾端用如下两种代码进行操作：
+### 1.操作者若想进行surface code 的运行，可以在本段代码的尾端用如下两种代码进行操作：
 
 ```javascript
 Run.run_loop([0.65,0.7],[6,7],10,Main.Classic.Limy_Init_111)
@@ -16,17 +16,17 @@ run_loop 函数中第一位变量为运行的单个编码空间中的量子比�
 
 此两种函数的输出结果为在设置的运行次数内纠错结果错误的个数。这可以用于探测 surface code 的 threshold。
 
-生成的surface code 样本可以用来如下代码来显示
+### 2.生成的surface code 样本可以用来如下代码来显示
 ```javascript
 console.log(Main.AA)
 ```
 
-check opreater显示出错的量子比特左边可以用如下代码来显示：
+### 3.check opreater显示出错的量子比特坐标可以用如下代码来显示：
 ```javascript
 console.log(liu.real_D)
 ```
 
-量子纠错的恢复路径可以用如下代码来显示：
+### 4.量子纠错的恢复路径可以用如下代码来显示：
 ```javascript
 console.log(Main.traced_list)
 ```
