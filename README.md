@@ -1,4 +1,5 @@
 # Surface-Code
+作者：WHU 穆冠群
 
 surface code 是拓扑量子计算的理论基础，基于 surface code 的拓扑保护，在 surface code 上编码的量子信息具有很高的保真度。故基于 surface code 开发的量子计算机有望成为未来物理上实现量子计算的候选者之一。  
 
