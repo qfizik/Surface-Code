@@ -1320,6 +1320,10 @@ Main.Result.loop=function(XorZ){
         }
     }
 
+    
+//    console.log(num_strip)
+    
+    
     if (num_strip%2==0){var ans=0}
     else{var ans=1}
     return ans
@@ -1357,100 +1361,49 @@ Main.Init= function(Lx,Ly,p,digged_list,star_begin){
     Main.star_begin=star_begin 
 }
 
-//运行
-Main.Start= function(XorZ){
-    
-    Main.XorZ=XorZ
-    
-    Main.gener_2d(Main.star_begin)
-    Main.dig_and_flip_2d(Main.p,Main.digged_list)
-    /*
-    Main.AA=
-[ [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
-  [ 1, 'X', 1, 'X', 3, 'X', 1, 'X', 3, 'X', 3, 'X', 1 ],
-  [ 'Z', 3, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
-  [ 3, 'X', 3, 'X', 2, 'X', 3, 'X', 1, 'X', 1, 'X', 1 ],
-  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
-  [ 3, 'X', 1, 'X', 2, 'XL', 0, 'XL', 1, 'X', 1, 'X', 3 ],
-  [ 'Z', 1, 'Z', 2, 'Z', 0, 'ZL', 0, 'Z', 1, 'Z', 3, 'Z' ],
-  [ 1, 'X', 1, 'X', 3, 'XL', 0, 'XL', 1, 'X', 1, 'X', 1 ],
-  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 3, 'Z', 1, 'Z' ],
-  [ 1, 'X', 3, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
-  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 3, 'Z', 1, 'Z' ],
-  [ 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
-  [ 'Z', 3, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ] ]
-    */
-    
-    var BBm=Main.check_XorZ(Main.XorZ)
-    var BBn=Main.add_boundary(Main.XorZ)
-    
-    
-    liu.opreat(BBm,BBn)
-    
-    
-    if (liu.len_all%2==0){
-        //输出按照rD+gD的组合（内部path为rD+B+gD的组合）
-        var CC=Main.couple_diction()
-        var JAVA=Main.py_translate_to_java(CC)
-        
-        var EE=Ee=blossom(JAVA)
-        var PPYY=Main.java_translate_to_py(EE)
-        
-        Main.decode_py(PPYY)
-        Main.Trace.start()
-        
-        if (XorZ=="Z"){var ANSF=Main.Result.loop(XorZ)}
-        else if(XorZ=="X"){var ANSF=Main.Result.dot_and_loopboudary(XorZ)}
-        
+//________________________________________初始化设置________________________________________
 
 
-
-        
-        
-    }
+//按距离与尺寸的关系比例增大（1:1）
+Main.Classic.Morden_Init_1_1 =function(N,p,star_begin){
     
-    //对于奇数个缺陷点模型，采取逐个孤立鬼缺陷点的方法
-    else{
-        //注：
-        // real_D 的长度：liu.len_real
-        // goast_D 的长度：liu.len_goast
-        
-        var weight_min=(Main.Lx+Main.Ly)*2*liu.len_real
-        for (var num_pause=liu.len_real;num_pause<liu.len_real+liu.len_goast;num_pause++){
-            
-            //输出按照rD+gD的组合（内部path为rD+B+gD的组合）
-            
-            var CC=Main.couple_diction(num_pause)
-            var JAVA=Main.py_translate_to_java(CC)
-            var EE=Ee=blossom(JAVA)
-            
-            var PPYY=Main.java_translate_to_py(EE)
-            
-            Main.decode_py(PPYY)
-            
-            var weight=0
-            for(var num_wei=0;num_wei<Main.decoded_list.length;num_wei++){
-                var t_wei=Main.decoded_list[num_wei]
-                weight=eval(t_wei).free_energy+weight
-            }
-            
-            if (weight<weight_min){
-                weight_min=weight
-
-                Main.Trace.start()
-
-            if (XorZ=="Z"){var ANSF=Main.Result.loop(XorZ)}
-            else if(XorZ=="X"){var ANSF=Main.Result.dot_and_loopboudary(XorZ)}
-                
-            }
-        }
-    }
+    var x0=2*N-1
+    var y0=2*N-1
+    var x1=4*N-3
+    var y1=4*N-3
     
-    return ANSF
+    Main.Lx=6*N-3
+    Main.Ly=6*N-3
+    
+    Main.p=p
+    
+    
+    Main.digged_list=Main.Classic.four_dots(y0,y1,x0,x1)
+    Main.star_begin=star_begin
+
 }
 
+//按距离与尺寸的关系比例增大（1:2）
+Main.Classic.Morden_Init_1_2 =function(N,p,star_begin){
+    
+    var x0=4*N-1
+    var y0=4*N-1
+    var x1=6*N-3
+    var y1=6*N-3
+    
+    Main.Lx=10*N-3
+    Main.Ly=10*N-3
+    
+    Main.p=p
+    
+    
+    Main.digged_list=Main.Classic.four_dots(y0,y1,x0,x1)
+    Main.star_begin=star_begin
 
-    //按比例增大(3:1:3)
+}
+
+//按比例增大(3:1:3)
+
 Main.Classic.Limy_Init_313 =function(N,p,star_begin){
     
     var x0=6*N+1
@@ -1609,22 +1562,21 @@ Run.run_loop=function(P,L,T,way){
 
                 T_all+=t_t
 
+               
+/*              
+                console.log(Main.AA)
+                console.log(liu.storaged_list)
                 
-              
-//                console.log(Main.AA)
-//                console.log(liu.storaged_list)
+                console.log(liu.real_D)
+                console.log(liu.goast_D)
+                console.log(liu.B_list)
                 
-//                console.log(liu.real_D)
-//                console.log(liu.goast_D)
-//                console.log(liu.B_list)
-
-//                console.log(Main.traced_list)
-
+                console.log(Main.traced_list)
+                console.log()
+*/    
             }
-            console.log(Run.p)
-            console.log(Run.N)
+            console.log(Run.p,Run.N,T_all)
             
-            console.log(T_all)
         }
     } 
 }
@@ -1637,6 +1589,110 @@ Run.run_loop=function(P,L,T,way){
 //挖孔边界与样本边界之间的距离为2，样本尺寸增大 ：Main.Classic.Loop_Init2 
 //挖孔边界与样本边界之间的距离为3，样本尺寸增大 ： Main.Classic.Loop_Init3
 
+
+//运行
+Main.Start= function(XorZ){
+    
+    Main.XorZ=XorZ
+    
+    Main.gener_2d(Main.star_begin)
+    Main.dig_and_flip_2d(Main.p,Main.digged_list)
+/*    
+    Main.AA=
+[ [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 3, 'X', 1, 'X', 1, 'XL', 0, 'XL', 0, 'XL', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 0, 'ZL', 0, 'ZL', 0, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 3, 'XL', 0, 'XL', 0, 'XL', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 0, 'ZL', 0, 'ZL', 0, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 1, 'XL', 0, 'XL', 0, 'XL', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ],
+  [ 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1, 'X', 1 ],
+  [ 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z', 1, 'Z' ] ]
+  
+  */
+    var BBm=Main.check_XorZ(Main.XorZ)
+    var BBn=Main.add_boundary(Main.XorZ)
+    
+    
+    liu.opreat(BBm,BBn)
+    
+    
+    if (liu.len_all%2==0){
+        //输出按照rD+gD的组合（内部path为rD+B+gD的组合）
+        var CC=Main.couple_diction()
+        
+/*        
+        console.log(CC)
+        
+        for (var numC=0;numC<CC.length;numC++){
+            console.log(eval(CC[numC]))
+        }
+*/        
+        var JAVA=Main.py_translate_to_java(CC)
+        
+        var EE=Ee=blossom(JAVA)
+        var PPYY=Main.java_translate_to_py(EE)
+        
+        
+//        console.log(PPYY)
+        
+        
+        Main.decode_py(PPYY)
+        Main.Trace.start()
+        
+        if (XorZ=="Z"){var ANSF=Main.Result.loop(XorZ)}
+        else if(XorZ=="X"){var ANSF=Main.Result.dot_and_loopboudary(XorZ)}
+        
+        
+    }
+    
+    //对于奇数个缺陷点模型，采取逐个孤立鬼缺陷点的方法
+    else{
+        //注：
+        // real_D 的长度：liu.len_real
+        // goast_D 的长度：liu.len_goast
+        
+        var weight_min=(Main.Lx+Main.Ly)*2*liu.len_real
+        for (var num_pause=liu.len_real;num_pause<liu.len_real+liu.len_goast;num_pause++){
+            
+            //输出按照rD+gD的组合（内部path为rD+B+gD的组合）
+            
+            var CC=Main.couple_diction(num_pause)
+            var JAVA=Main.py_translate_to_java(CC)
+            var EE=Ee=blossom(JAVA)
+            
+            var PPYY=Main.java_translate_to_py(EE)
+            
+            Main.decode_py(PPYY)
+            
+            var weight=0
+            for(var num_wei=0;num_wei<Main.decoded_list.length;num_wei++){
+                var t_wei=Main.decoded_list[num_wei]
+                weight=eval(t_wei).free_energy+weight
+            }
+            
+            if (weight<weight_min){
+                weight_min=weight
+
+                Main.Trace.start()
+
+            if (XorZ=="Z"){var ANSF=Main.Result.loop(XorZ)}
+            else if(XorZ=="X"){var ANSF=Main.Result.dot_and_loopboudary(XorZ)}
+                
+            }
+        }
+    }
+    
+    return ANSF
+}
+
+
 /*
 for(var num_N2=4;num_N2<5;num_N2++){
     console.log("N2等于")
@@ -1647,5 +1703,6 @@ for(var num_N2=4;num_N2<5;num_N2++){
 
 //运行时间：L=3，1h ——> 2000
 //time L**6
-Run.run_strip([0.65,0.7],[6,7],10,Main.Classic.Limy_Init_111)
 
+
+//Run.run_strip([0.04],[1,2,3,4,5,6,7,8],100,Main.Classic.Morden_Init_1_1)
